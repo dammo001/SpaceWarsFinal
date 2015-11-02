@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Space Wars</title>
+    <link rel="stylesheet" type="text/css" href="./css/asteroids.css">
+  
+  </head>
+  <body background="./assets/background_space.jpg">
+    <div class="container"> 
+
+      <canvas width="795" height="400" id="game-canvas">
+
+      </canvas>
+      <audio id="laser" src="./sounds/laser_small.wav" style="display: none;"></audio>
+      <audio id="enemy-death" src="./sounds/enemy_death.wav" style="display: none;"></audio>
+      <audio id="ship-death" src="./sounds/ship_death.wav" style="display: none;"></audio>
+      <audio id="bg-audio" src="./sounds/Androids.wav" style="display: none;"></audio>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="lib/util.js"></script> 
+    <script src="lib/game.js"></script> 
+    <script src="lib/gameView.js"></script>
+    <script src="lib/menuView.js"></script>
+    <script src="lib/sprite.js"></script> 
+    <script src="lib/movingObject.js"></script> 
+    <script src="lib/ship.js"></script>
+    <script src="lib/keyLibrary.js"></script> 
+    <script src="lib/keymaster.js"></script> 
+    <script src="lib/bullet.js"></script> 
+    <script src="lib/dodger.js"></script>
+    <script src="lib/floater.js"></script>
+    <script src="lib/tracker.js"></script>
+    <script>
+
+      var canvasEl = document.getElementById("game-canvas");
+      canvasEl.height = window.innerHeight;
+      canvasEl.width = window.innerWidth;
+      var newGame = new Asteroids.menuView(canvasEl, canvasEl.height, canvasEl.width)
+      newGame.start()
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+
+* { 
+margin: 0;
+padding: 0;
+}
+
+body { 
+	overflow:hidden;
+	z-index: 0 ; 
+}
+
+#instructions { 
+	position: relative;
+	color: black;
+}
+
+#lives { 
+	position: relative;
+	color: black;
+}
+
+#game-over { 
+	display: none;
+	font-weight: 700;
+	text-align: center; 
+	color: black;
+}
+
+.container { 
+	position: relative; 
+}
+
+canvas {
+	border: 1px solid black;
+}
