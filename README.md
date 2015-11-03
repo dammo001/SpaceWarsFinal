@@ -1,5 +1,5 @@
 # SpaceWars
-[Click here to play!](https://conanza.github.io/spacewarsworking)
+[Click here to play!](https://dammo001.github.io/spacewarsworking)
 
 ![screenshot](./assets/spacewarsGif.gif)
 
