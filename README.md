@@ -17,57 +17,10 @@ SpaceWars is a simple browser-based shooter game built entirely with JavaScript 
 ## The Code 
 I had 2 major hurdles when creating this game. 
 
-The first was that my game was initially run on a step loop using setInterval so that the game ran at 60 fps. Essentially, the game loop was called again every interval, causing animation to occur. While this was fine during the early stages of the game, I soon realized that that method didn't enable the sort of gameplay that I envisioned -- it was simply too choppy. So, I read up on other methods, and came across "requestAnimationFrame", a JS function that allows the browser to queue up the next loop and execute it at the next best possible moment, rather than executing it at an arbitrary time which may or may not be optimal. My new and improved game loop looks like so: 
-
-  gameView.prototype.main = function(){
-	    var now = Date.now();
-	    var dt = (now - this.lastTime) / 1000.0;
-
-	    this.update(dt);
-
-	    this.lastTime = now;
-	    requestId = requestAnimFrame(this.main.bind(this));
-	    if (!isOver){
-			if (this.game.over()){
-				this.end(); 
-				window.cancelAnimationFrame(requestId);
-				requestId = undefined; 
-			} 
-		}
-	 };
-
-	gameView.prototype.update = function(time){ 
-		this.gameTime += time;
-		this.game.ship.update(time); 
-		this.game.ship.checkKeyState(); 
-		this.game.ship.checkFire(); 
-		this.game.step(time);
-		this.game.draw(this.ctx);
-		bgMusic.play();
-	 };
-	 
-The 'dt' here allows me to calculate the exact amount of time that transpired between the two frames, then update the movements of each respective board item as a function of that dt. This allows for smooth movement. 
-
+The first was that my game was initially run on a step loop using setInterval so that the game ran at 60 fps. Essentially, the game loop was called again every interval, causing animation to occur. While this was fine during the early stages of the game, I soon realized that that method didn't enable the sort of gameplay that I envisioned -- it was simply too choppy. So, I read up on other methods, and came across "requestAnimationFrame", a JS function that allows the browser to queue up the next loop and execute it at the next best possible moment, rather than executing it at an arbitrary time which may or may not be optimal. If you'd like to read more, see https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
 
 Another major hurdle I had was in creating the A.I. for my aliens. I decided that I wnated to have a floater that bonced off walls, a tracker which tracks the player at a fast speed, and a dodger which tracks at a slower speed, but can dodge bullets. The tracker was pretty easy, all I had to do was have it calculate the vector to the player's position at each step of the event loop. I thought the dodger would be pretty straightforward as well. My strategy was to loop through the bullets and, if a bullet was within a certain distance of a dodger, the dodger would change its velocity vector to one perpendicular of that of the incoming bullet. The difficulty ended up being in A) getting that to work and B) getting it to only happen for a small amount of time. After all, the dodger has to return to following the user after it dodges. To make this work, I ended up at the following code: 
 
-  MovingObject.Dodger.prototype.move = function(time){
-		if (!this.hasDodged){
-			this.findVel(); 
-		}
-		this.position[0] = this.position[0] + this.velocity[0]*time*3;
-		if (this.position[0] < 5){
-			this.position[0] = 5;
-		} else if (this.position[0] > this.width-1){
-			this.position[0] = this.width-5;
-		}
-		this.position[1] = this.position[1] + this.velocity[1]*time*3; 
-		if (this.position[1] < 5){
-			this.position[1] = 5 ;
-		} else if (this.position[1] > this.height-5){
-			this.position[1] = this.height-5;
-		}
-	};
 
 	MovingObject.Dodger.prototype.findVel = function(){
 		this.velocity = Asteroids.Util.findVecTo(this.position, this.ship.position, 30); 
@@ -82,7 +35,7 @@ Another major hurdle I had was in creating the A.I. for my aliens. I decided tha
 		var that = this; 
 		bullet
 		console.log(Asteroids.Util.prototype.distance(this.position, bullet.position))	
-		if ((Asteroids.Util.prototype.distance(this.position, bullet.position) < 120) && (!this.hasDodged)){
+		if ((Asteroids.Util.prototype.distance(this.position, bullet.position) < 120) && 					(!this.hasDodged)){
 			this.hasDodged = true;
 			setTimeout(function(){ that.hasDodged = false;}, 100); 
 			this.perpVel(bullet); 
